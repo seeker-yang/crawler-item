@@ -66,7 +66,7 @@ def count_movie():
     html = expanddouban.getHtml(url,True)
     soup = BeautifulSoup(html, "html.parser")
     total_category=soup.find_all('ul',class_='category')
-    print(total_category)                                         #为什么是空列表
+    
     category=list(total_category[1].children)
     location=list(total_category[2].children) 
     """
@@ -79,7 +79,7 @@ def count_movie():
     final_location=[x.find('span').string for x in location]
     final_category.pop(0)
     final_location.pop(0)
-    print(final_category,final_location)
+    
     for e in final_category:
         for l in final_location:
             final_movie+=getMovies(e,l)#把所有类型和地区的组合的网页内的电影信息写入finalmovie的列表中
