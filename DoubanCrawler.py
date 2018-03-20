@@ -3,6 +3,7 @@
 return a string corresponding to the URL of douban movie lists given category and location.
 """
 import csv
+import io,sys
 import expanddouban
 from bs4 import BeautifulSoup
 
@@ -50,12 +51,12 @@ def getMovies(category, location):
 任务5: 构造电影信息数据表
 任务6: 统计电影数据
 """           
-import io,sys
+
 sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding="utf-8")
 def count_movie():
 
 
-    final_category=[]
+    final_category=['暴力','恐怖','文艺']
     final_location=[]
     final_movie=[]
     url="https://movie.douban.com/tag/#/?sort=S&range=9,10&tags=电影"
@@ -65,10 +66,7 @@ def count_movie():
         location=child.find(class_='tag').get_text()
         if location!='全部地区':
             final_location.append(location)
-    for child in soup.find(class_='tags').find(class_='category').next_sibling:
-        category=child.find(class_='tag').get_text()
-        if category!='全部类型':        #可使用if category=='暴力'测试结果，避免等待过久或者IP被禁
-            final_category.append(category)
+    
     for e in final_category:
         for l in final_location:
             final_movie+=getMovies(e,l)#把所有类型和地区的组合的网页内的电影信息写入finalmovie的列表中
@@ -92,7 +90,7 @@ def count_movie():
                 sec_location,sec_number=sort[1]
                 third_location,third_number=sort[2]
                 total_number=len(sametype_movie)
-                f.write("{}类型电影数量排名前三的地区分别为{},{},{},它们分别占总量的{:.2%}，{:.2%}，{:.2%}。\n"
+                f.write("[{}]类型电影数量排名前三的地区分别为{},{},{},它们分别占总量的{:.2%}，{:.2%}，{:.2%}。\n"
                     .format(i, fir_location, sec_location, third_location, fri_number/total_number, sec_number/total_number, third_number/total_number))
 
 count_movie()
